@@ -1,7 +1,35 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+
+
 $(function () {
+  const businessHours = ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"];
+  for (let i = 0; i < businessHours.length; i++) {
+    const hour = businessHours[i];
+    const timeBlock = `<div class="row time-block" id="hour-${i+9}">
+                       <div class="col-md-2 col-2 hour text-center py-3">${hour}</div>
+                       <textarea class="col-md-8 col-8 description" rows="3"></textarea>
+                       <button class="btn saveBtn col-md-2 col-2" aria-label="save">
+                         <i class="fas fa-save" aria-hidden="true"></i>
+                       </button>
+                     </div>`;
+    $("#calendar").append(timeBlock);
+  }
+  
+  const currentHour = dayjs().hour();
+  for (let i = 9; i <= 17; i++) {
+    const timeBlock = $(`#hour-${i}`);
+    if (i < currentHour) {
+      timeBlock.addClass("past");
+    } else if (i === currentHour) {
+      timeBlock.addClass("present");
+    } else {
+      timeBlock.addClass("future");
+    }
+  }
+
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
