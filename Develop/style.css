@@ -3,6 +3,16 @@ body {
   font-size: 16px;
 }
 
+#output{
+  background-color: #06aed5;
+  color: white;
+  width: 200px;
+  margin-top: 50px;
+  margin-bottom: -30px;
+  margin-left: 700px;
+  margin-right: 700px;
+}
+
 textarea {
   background: transparent;
   border: none;
