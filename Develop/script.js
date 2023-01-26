@@ -4,6 +4,9 @@
 
 
 $(function () {
+  const currentDay = dayjs().format("dddd, MMMM D, YYYY");
+  document.getElementById("currentDay").innerHTML = currentDay;
+  });
   const businessHours = ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"];
   for (let i = 0; i < businessHours.length; i++) {
     const hour = businessHours[i];
@@ -16,7 +19,25 @@ $(function () {
                      </div>`;
     $("#calendar").append(timeBlock);
   }
-  
+  $(".saveBtn").on("click", function () {
+    let textarea = $(this).prev(".description");
+    let text = textarea.val();
+    let hour = $(this).prevAll(".hour").text();
+    localStorage.setItem(hour, text);
+  });
+
+  for (let i = 0; i < businessHours.length; i++) {
+    const hour = businessHours[i];
+    const text = localStorage.getItem(hour);
+    $(`#hour-${i+9} .description`).val(text);
+  }
+
+  /*
+  for (let i = 9; i <= 17; i++) {
+    const text = localStorage.getItem(`${i}am`);
+    $(`#hour-${i} .description`).val(text);
+  }
+  */
   const currentHour = dayjs().hour();
   for (let i = 9; i <= 17; i++) {
     const timeBlock = $(`#hour-${i}`);
@@ -27,8 +48,9 @@ $(function () {
     } else {
       timeBlock.addClass("future");
     }
-  }
+  };
 
+ 
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -48,6 +70,4 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-  const currentDay = dayjs().format("dddd, MMMM D, YYYY");
-document.getElementById("currentDay").innerHTML = currentDay;
-});
+
